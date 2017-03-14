@@ -1,0 +1,12 @@
+{
+	"port": 8080,
+	"projects": [
+		{
+			"id": "226780",
+			"slug": "shadowmc",
+			"homepage": "https://minecraft.curseforge.com/projects/shadowmc",
+			"versionRegex": "ShadowMC-.+-(.+)\\.jar",
+			"cacheDuration": 120
+		}
+	]
+}
