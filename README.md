@@ -7,7 +7,7 @@ A Node.js application for generating [Forge Update JSONs](http://mcforge.readthe
 	"port": 8080,
 	"projects": [
 		{
-			"id": "226780",
+			"curse": "shadowmc",
 			"slug": "shadowmc",
 			"homepage": "https://minecraft.curseforge.com/projects/shadowmc",
 			"versionRegex": "ShadowMC-.+-(.+)\\.jar",
@@ -19,7 +19,7 @@ A Node.js application for generating [Forge Update JSONs](http://mcforge.readthe
 
 - `port`: The port to run the `curse-update-json` server on.
 - `projects`: An array of all projects to use for this instance. Each element is an object with the following properties
-  - `id`: The numerical ID of the CurseForge project
+  - `curse`: The slug for the CurseForge project that appears in the URL.
   - `slug`: The string slug to serve the JSON from. e.g. if it's running on a server at `example.com`, the port is `80`, and the slug is `examplemod`, it will be accessible from `http://example.com/examplemod`.
   - `homepage`: The string for the homepage URL to use in the Forge update JSON
   - `versionRegex`: A regular expression for extracting the version number from the file name on CurseForge. The version number should be in group 1.

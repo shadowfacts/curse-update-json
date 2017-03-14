@@ -2,7 +2,7 @@
 	"port": 8080,
 	"projects": [
 		{
-			"id": "226780",
+			"curse": "shadowmc",
 			"slug": "shadowmc",
 			"homepage": "https://minecraft.curseforge.com/projects/shadowmc",
 			"versionRegex": "ShadowMC-.+-(.+)\\.jar",

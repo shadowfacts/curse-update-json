@@ -52,38 +52,32 @@ function get(proj) {
 
 function generateAndCache(proj) {
 	return new Promise((resolve, reject) => {
-		request(`http://minecraft.curseforge.com/projects/${proj.id}`, (err, res) => {
+		request(`http://minecraft.curseforge.com/projects/${proj.curse}/files`, (err, res, body) => {
 			if (err) {
 				reject(err);
 				return;
 			}
-			request(`http://minecraft.curseforge.com${res.request.uri.pathname}/files`, (err, res, body) => {
-				if (err) {
-					reject(err);
-					return;
-				}
-				const re = new RegExp(proj.versionRegex);
-				const $ = cheerio.load(body);
-				const files = [];
-				$(".project-file-list-item").toArray().map((it) => $(it)).forEach((el) => {
-					const f = {};
-					const type = el.find(".project-file-release-type > div");
-					f.type = type.attr("class").split("-")[0];
-					const link = el.find(".project-file-name > div > .project-file-name-container > a");
-					const name = link.text();
-					const res = re.exec(name);
-					f.ver = res[1];
-					f.url = "https://minecraft.curseforge.com" + link.attr("href");
-					const mcVer = el.find(".project-file-game-version > .version-label").text();
-					f.mcVer = mcVer;
-					files.push(f);
-				});
-				const json = generateJson(proj, files);
-				const s = JSON.stringify(json, null, "\t");
-				fs.writeFile(path.join(__dirname, "cache", `${proj.id}.json`), s);
-				cache[proj.id] = Date.now();
-				resolve(s);
+			const re = new RegExp(proj.versionRegex);
+			const $ = cheerio.load(body);
+			const files = [];
+			$(".project-file-list-item").toArray().map((it) => $(it)).forEach((el) => {
+				const f = {};
+				const type = el.find(".project-file-release-type > div");
+				f.type = type.attr("class").split("-")[0];
+				const link = el.find(".project-file-name > div > .project-file-name-container > a");
+				const name = link.text();
+				const res = re.exec(name);
+				f.ver = res[1];
+				f.url = "https://minecraft.curseforge.com" + link.attr("href");
+				const mcVer = el.find(".project-file-game-version > .version-label").text();
+				f.mcVer = mcVer;
+				files.push(f);
 			});
+			const json = generateJson(proj, files);
+			const s = JSON.stringify(json, null, "\t");
+			fs.writeFile(path.join(__dirname, "cache", `${proj.id}.json`), s);
+			cache[proj.id] = Date.now();
+			resolve(s);
 		});
 	});
 }
