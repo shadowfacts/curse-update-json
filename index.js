@@ -31,7 +31,11 @@ app.listen(config.port, () => {
 
 function loadConfig() {
 	const data = fs.readFileSync(path.join(__dirname, "config.json"));
-	return JSON.parse(data);
+	const config = JSON.parse(data);
+	for (const proj of config.projects) {
+		proj.versionRegex = new RegExp(proj.versionRegex);
+	}
+	return config;
 }
 
 function get(proj) {
@@ -57,7 +61,6 @@ function generateAndCache(proj) {
 				reject(err);
 				return;
 			}
-			const re = new RegExp(proj.versionRegex);
 			const $ = cheerio.load(body);
 			const files = [];
 			$(".project-file-list-item").toArray().map((it) => $(it)).forEach((el) => {
@@ -66,7 +69,7 @@ function generateAndCache(proj) {
 				f.type = type.attr("class").split("-")[0];
 				const link = el.find(".project-file-name > div > .project-file-name-container > a");
 				const name = link.text();
-				const res = re.exec(name);
+				const res = proj.versionRegex.exec(name);
 				f.ver = res[1];
 				f.url = "https://minecraft.curseforge.com" + link.attr("href");
 				const mcVer = el.find(".project-file-game-version > .version-label").text();
