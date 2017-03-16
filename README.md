@@ -1,6 +1,13 @@
 # curse-update-json
 A Node.js application for generating [Forge Update JSONs](http://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/) from scraped [CurseForge](https://minecraft.curseforge.com/) data.
 
+## Installation
+1. Install [Node.js](https://nodejs.org/).
+2. Clone this repository.
+3. Run `npm install` in the repository directory.
+5. Create the `cache` directory inside the repository directory.
+4. Run `node index.js` to start the server.
+
 ## Config
 ```json
 {
